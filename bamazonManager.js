@@ -108,7 +108,7 @@ function lowInventory(){
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
 
-        console.log("\nLow Inventory item:\n")
+        console.log("\nLow Inventory item(s):\n")
         var table = new Table({
             head: ['item_id','product_name',"department_name","price", "stock_quantity"],
             colWidths: [5,30,25,10,20]
@@ -124,9 +124,11 @@ function lowInventory(){
 
             }
 
+        }
+
             console.log(table.toString());
 
-        }
+       
 
 
 
