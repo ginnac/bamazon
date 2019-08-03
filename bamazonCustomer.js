@@ -101,7 +101,7 @@ function buyProduct() {
           },
         ])
         .then(function(answer) {
-        //   connection.end();
+        
 
 
         //do changes in my sql if the quantity customer will buy is in stock
@@ -136,6 +136,7 @@ function buyProduct() {
                 console.log("\n\nOrder placed sucessfully!");
                 console.log("You ordered " + num + " unit(s) of " + chosenProduct.product_name + "\nYour Total was: " 
                 + chosenProduct.price * num + " $ \nThank you for your business!");
+                startAgain();
               }
 
             );
@@ -143,13 +144,41 @@ function buyProduct() {
           //if not enough stock console log sorry not enough stock.
           else {
             console.log("Sorry, order can't be completed - Insufficient quantity!");
+            startAgain();
          
          }
         });
     });
   }
 
+  //let the user place a new order
 
+  function startAgain(){
+
+    inquirer
+    .prompt([
+      {
+        name: "store",
+        type: "list",
+        choices: ["Yes please", "No, I'm done"],
+        message: "Would you Like to place a new order?",
+      }
+      
+    ])
+    .then(function(answer) {
+
+        if(answer.store === "Yes please"){
+            writeProductsList();
+        }
+
+        else{
+            //end connection
+            connection.end();
+        }
+
+  });
+
+  }
   
 
 
