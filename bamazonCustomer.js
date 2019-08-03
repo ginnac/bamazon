@@ -22,11 +22,21 @@ var connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     // run the write products list function after the connection is made to write the list of products
-    console.log("writeProducts list");
+    writeProductsList();
   });
 
 
 //writing it to the console
+
+function writeProductsList() {
+    console.log("displaying all products\n");
+    connection.query("SELECT * FROM products", function(err, res) {
+      if (err) throw err;
+      // Log all results of the SELECT statement
+      console.log(res);
+      connection.end();
+    });
+  }
 
 
 
