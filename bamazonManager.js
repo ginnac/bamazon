@@ -32,8 +32,7 @@ var connection = mysql.createConnection({
 
  function optionsList(){
 
-    connection.query("SELECT * FROM products", function(err, res) {
-        if (err) throw err;
+    
   
         // once you have the items, prompt the user for which they'd like to buy
         // View Products for Sale
@@ -51,16 +50,53 @@ var connection = mysql.createConnection({
           ])
           .then(function(answer) {
 
-            console.log(answer.optionsList);
+            //console.log(answer.optionsList);
             // If a manager selects View Products for Sale, the app should list every available item: the item IDs, names, prices, and quantities.
             // If a manager selects View Low Inventory, then it should list all items with an inventory count lower than five.
             // If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
             // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
 
+            switch(answer.optionsList) {
+                case "View Products for Sale":
+                        viewProducts();
+                  break;
+                case "View Low Inventory":
+
+                        viewProducts();
+                  break;
+                case "Apple":
+                        viewProducts();
+                  break;
+                default:
+                        viewProducts();
+              }
+
         });
 
-    });
+  
 }
 
 
 
+function viewProducts(){
+
+    connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw err;
+
+            // instantiate
+               
+    var table = new Table({
+        head: ['item_id','product_name',"department_name","price", "stock_quantity"],
+        colWidths: [5,30,25,10,20]
+    });
+ 
+    for(var i=0;i<res.length;i++){
+        table.push(
+            [ res[i].item_id, res[i].product_name,res[i].department_name,res[i].price, res[i].stock_quantity],
+            
+        );
+    }
+
+    console.log(table.toString());
+    });
+}
