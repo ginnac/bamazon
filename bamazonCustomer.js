@@ -36,15 +36,15 @@ function writeProductsList() {
       // Log all results of the SELECT statement
       //console.log(res);
         // instantiate
-                //remove stock quantity!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+               
     var table = new Table({
-        head: ['item_id','product_name',"department_name","price", "stock_quantity"],
-        colWidths: [10,50,50,20,20]
+        head: ['item_id','product_name',"department_name","price"],
+        colWidths: [10,50,50,20]
     });
  
     for(var i=0;i<res.length;i++){
         table.push(
-            [ res[i].item_id, res[i].product_name,res[i].department_name,res[i].price,res[i].stock_quantity],
+            [ res[i].item_id, res[i].product_name,res[i].department_name,res[i].price],
             
         );
     };
