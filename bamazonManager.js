@@ -31,10 +31,6 @@ var connection = mysql.createConnection({
  //inquire to see the list of option and do the choice the manager took
 
  function optionsList(){
-
-    
-  
-        // once you have the items, prompt the user for which they'd like to buy
         // View Products for Sale
         // View Low Inventory
         // Add to Inventory
