@@ -51,10 +51,6 @@ var connection = mysql.createConnection({
           .then(function(answer) {
 
             //console.log(answer.optionsList);
-           
-            
-            
-            // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
 
             switch(answer.optionsList) {
                 case "View Products for Sale":
@@ -65,7 +61,11 @@ var connection = mysql.createConnection({
                         lowInventory();
                   break;
                 case "Add to Inventory":
-                        addInventory()();
+                        addInventory();
+                  break;
+
+                  case "Add New Product":
+                        addNewProduct();
                   break;
                 default:
                         viewProducts();
@@ -221,4 +221,70 @@ function addInventory(){
             }
           });
       });
+}
+
+   // If a manager selects Add New Product, it should allow the manager to
+   // add a completely new product to the store.
+function addNewProduct(){
+
+    //inquirer to get the product information from the user
+inquirer
+/* Pass your questions in here */
+  .prompt([
+      { name: "productName",
+        type: "input",
+        message: "What is the name of the product you would like to add?",
+      },
+
+      { name: "departmentName",
+        type: "list",
+        choices: ["Mobile Accessories", "Purses and Backpacks", "Beauty", "Woman Clothing", "Men Clothing", "Others"],
+        message: "Which department this item belongs to?",
+      },
+
+      { name: "pricePerUnit",
+        type: "input",
+        message: "What is this item's price per unit?",
+        validate: function(value) {
+            if (value < 100000) {
+              return true;
+            }
+            return false;
+            }
+      },
+    
+
+      { name: "stock",
+        type: "number",
+        message: "How many units for item?",
+    
+      },
+    
+  ])
+  .then (function(answers){
+    // Use user feedback for... whatever!!
+    //connect to mysql query and inset into the products table the new product
+    connection.query(
+        "INSERT INTO products SET ?",
+        {
+          product_name: answers.productName,
+          department_name: answers.departmentName,
+          price: answers.pricePerUnit || 0,
+          stock_quantity: answers.stock || 0
+        },
+        function(err) {
+          if (err) throw err;
+          console.log("Your product was added successfully!");
+          // re-prompt the user for if they want to bid or post
+          optionsList();
+        }
+      );
+
+});
+
+
+    
+
+
+
 }
