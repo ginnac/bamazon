@@ -44,7 +44,7 @@ var connection = mysql.createConnection({
             {
               name: "optionsList",
               type: "rawlist",
-              choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product" ],
+              choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit" ],
               message: "Choose a task:"
             },
           ])
@@ -67,6 +67,11 @@ var connection = mysql.createConnection({
                   case "Add New Product":
                         addNewProduct();
                   break;
+
+                  case "Exit":
+                        exitManagerSite();
+                  break;
+
                 default:
                         viewProducts();
               }
@@ -281,10 +286,10 @@ inquirer
       );
 
 });
+}
 
-
-    
-
-
-
+// function to end connection
+function exitManagerSite(){
+    console.log("Session ended");
+    connection.end();
 }
