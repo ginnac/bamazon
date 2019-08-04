@@ -53,7 +53,7 @@ var connection = mysql.createConnection({
             //console.log(answer.optionsList);
            
             
-            // If a manager selects Add to Inventory, your app should display a prompt that will let the manager "add more" of any item currently in the store.
+            
             // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
 
             switch(answer.optionsList) {
@@ -64,8 +64,8 @@ var connection = mysql.createConnection({
 
                         lowInventory();
                   break;
-                case "Apple":
-                        viewProducts();
+                case "Add to Inventory":
+                        addInventory()();
                   break;
                 default:
                         viewProducts();
@@ -129,13 +129,96 @@ function lowInventory(){
             console.log(table.toString());
 
        
-
-
-
-        
-
-
     });
+}
 
 
+// If a manager selects Add to Inventory, your app should display a 
+//prompt that will let the manager "add more" of any item currently in the store.
+
+function addInventory(){
+
+    console.log("This is the list of Products:")
+    viewProducts();
+    connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw err;
+  
+        // once you have the items, prompt the user for which they'd like to add inventory to
+        inquirer
+          .prompt([
+            {
+              name: "inventoryId",
+              type: "list",
+              choices: function() {
+                var inventoryList = [];
+                for (var i = 0; i < res.length; i++) {
+                    inventoryList.push(res[i].item_id);
+                }
+                return inventoryList;
+              },
+              message: "Please choose the id of the product you would like to add inventory to"
+            },
+            {
+              name: "quantityToAdd",
+              type: "number",
+              message: "How many units are we adding to the inventory? (Please enter integers)",
+              default: 0,
+            },
+          ])
+          .then(function(answer) {
+
+            console.log(answer.inventoryId + " " + answer.quantityToAdd);
+          
+  
+  
+         //do changes in mysql , update the quantity of the specific item_id
+  
+        var chosenId;
+         for (var i = 0; i < res.length; i++) {
+             if (res[i].item_id === answer.inventoryId) {
+                chosenId = res[i];
+         }
+        }
+    
+        // if the answer.quantityToAdd is more than 0 then we can add the quantity;
+        
+           if (parseInt(answer.quantityToAdd)>0) {
+         //Let's add the stock by the number of units from answer.quantityToAdd
+  
+        var numToAdd = parseInt(answer.quantityToAdd)
+        var newStock =  chosenId.stock_quantity + numToAdd;
+        ;
+        //connecting to mysql query and updating stock_quantity
+
+            connection.query(
+               "UPDATE products SET ? WHERE ?",
+               [
+                {
+                   stock_quantity: newStock
+                },
+                {
+                  item_id: chosenId.item_id
+                }
+               ],
+                 function(error) {
+                    if (error) throw err;
+                 console.log("\n\nStock updated sucessfully!");
+                 console.log("You updated " + chosenId.product_name + " stock. Stock added was: " + numToAdd +
+
+                 ". Total stock now is: " + newStock + ".");
+
+
+                   optionsList();
+                 }
+  
+            );
+            }
+        //     if not valid quantity was entered or default value was entered
+         else {
+               console.log("No valid quantity was entered");
+               optionsList();
+           
+            }
+          });
+      });
 }
