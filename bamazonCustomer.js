@@ -118,14 +118,19 @@ function buyProduct() {
           if (chosenProduct.stock_quantity > parseInt(answer.quantity)) {
             // we have stock so lets reduce the stock by the number of units sold
 
-            var num = parseInt(answer.quantity)
+           var num = parseInt(answer.quantity);
            var newStock =  chosenProduct.stock_quantity - num;
+           var saleTotal = chosenProduct.price * num;
+           var newTotalSales = chosenProduct.product_sales + saleTotal;
+           
            
            connection.query(
               "UPDATE products SET ? WHERE ?",
               [
                 {
-                  stock_quantity: newStock
+                  stock_quantity: newStock,
+                  product_sales: newTotalSales
+                 
                 },
                 {
                   item_id: chosenProduct.item_id
@@ -135,7 +140,7 @@ function buyProduct() {
                 if (error) throw err;
                 console.log("\n\nOrder placed sucessfully!");
                 console.log("You ordered " + num + " unit(s) of " + chosenProduct.product_name + "\nYour Total was: " 
-                + chosenProduct.price * num + " $ \nThank you for your business!");
+                + saleTotal + " $ \nThank you for your business!");
                 startAgain();
               }
 
