@@ -23,13 +23,12 @@ var connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     // function to display the menue options
-
-    console.log("connected");
+    start();
   
   });
 
 //inquirer to display the following choices to be selected by the user:
-
+function start(){
     // View Product Sales by Department
     // Create New Department
     inquirer
@@ -65,6 +64,7 @@ var connection = mysql.createConnection({
 
   });
 
+}
    //with the response we will then:
   //if answer = View Product Sales by Department, the app should display a summarized table in their
   // terminal/bash window.
@@ -107,8 +107,13 @@ var connection = mysql.createConnection({
             }
 
           }
+
+          var profit = salesToPost - res[i].over_head_costs;
+
+
+
             table.push(
-                [ res[i].department_id, res[i].department_name,res[i].over_head_costs, salesToPost, salesToPost]
+                [ res[i].department_id, res[i].department_name,res[i].over_head_costs, salesToPost, profit]
                 
             );
         }
