@@ -37,7 +37,7 @@ function start(){
       {
         name: "actionsList",
         type: "list",
-        choices: ["View Product Sales by Department", "Create New Department"],
+        choices: ["View Product Sales by Department", "Create New Department", "Exit"],
         message: "Choose an Action:"
       },
     ])
@@ -51,7 +51,7 @@ function start(){
             break;
           case "Create New Department":
 
-                  lowInventory();
+                  createDepartment();
             break;
 
             case "Exit":
@@ -59,7 +59,7 @@ function start(){
             break;
 
           default:
-                  viewProducts();
+                   departmentSales();
         }
 
   });
@@ -110,8 +110,6 @@ function start(){
 
           var profit = salesToPost - res[i].over_head_costs;
 
-
-
             table.push(
                 [ res[i].department_id, res[i].department_name,res[i].over_head_costs, salesToPost, profit]
                 
@@ -121,12 +119,70 @@ function start(){
         console.log(table.toString());
         
 
-
+        start();
         });
 
       });
 
     }
+
+
+    function createDepartment(){
+
+    //inquirer to get the department information from the user
+    inquirer
+    /* Pass your questions in here */
+      .prompt([
+          { name: "departmentName",
+            type: "input",
+            message: "What is the name of this new department?",
+          },
+    
+          { name: "overHeadCosts",
+            type: "input",
+            message: "What is the over head costs of this department",
+            validate: function(value) {
+                if (value < 10000000) {
+                  return true;
+                }
+                return false;
+                }
+          },
+        
+      ])
+      .then (function(answers){
+        // Use user feedback for... whatever!!
+        //connect to mysql query and inset into the products table the new product
+        connection.query(
+            "INSERT INTO departments SET ?",
+            {
+              department_name: answers.departmentName,
+              over_head_costs: answers.overHeadCosts || 0
+            },
+            function(err) {
+              if (err) throw err;
+              console.log("New department was added successfully!");
+              // re-prompt the user for if they want to bid or post
+              start();
+            }
+          );
+
+
+
+
+    });
+
+  }
+
+
+
+  function exitSupervisorSite(){
+    console.log("Session ended");
+    connection.end();
+
+
+  }
+
 
       
 
