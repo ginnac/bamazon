@@ -141,8 +141,26 @@ function lowInventory(){
 function addInventory(){
 
     console.log("This is the list of Products:")
-    viewProducts();
     connection.query("SELECT * FROM products", function(err, res) {
+      if (err) throw err;
+
+          // instantiate
+             
+  var table = new Table({
+      head: ['item_id','product_name',"department_name","price", "stock_quantity"],
+      colWidths: [5,30,25,10,20]
+  });
+
+  for(var i=0;i<res.length;i++){
+      table.push(
+          [ res[i].item_id, res[i].product_name,res[i].department_name,res[i].price, res[i].stock_quantity],
+          
+      );
+  }
+
+  console.log(table.toString());
+  });
+  connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
   
         // once you have the items, prompt the user for which they'd like to add inventory to
@@ -169,9 +187,7 @@ function addInventory(){
           ])
           .then(function(answer) {
 
-            console.log(answer.inventoryId + " " + answer.quantityToAdd);
-          
-  
+          //  console.log(answer.inventoryId + " " + answer.quantityToAdd);
   
          //do changes in mysql , update the quantity of the specific item_id
   
