@@ -100,6 +100,7 @@ function viewProducts(){
     }
 
     console.log(table.toString());
+    optionsList();
     });
 }
 
@@ -128,7 +129,7 @@ function lowInventory(){
         }
 
             console.log(table.toString());
-
+            optionsList();
        
     });
 }
