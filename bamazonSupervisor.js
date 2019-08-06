@@ -81,7 +81,7 @@ function start(){
           for (var i=0; i<res.length;i++){
             sales.push([res[i].department_name, res[i]["SUM(product_sales)"]]);
           }
-          console.log(sales);
+          
 
 //getting just vales from departments table
         var quer= "SELECT * FROM departments"
