@@ -45,8 +45,10 @@ Manager view if store-simulator: node bamazonManager.js
 Developer: Ginna Campbell
 Technologies applied: Node.js
 
-![General Example](images/constructorWordGuess1.PNG)
-![Winning](images/constructorWordGuess2.PNG)
-![Losing](images/constructorWordGuess3.PNG)
-![playing again](images/constructorWordGuess4.PNG)
-![Exit the game](images/constructorWordGuess5.PNG)
+![customer view](images/mysql-node.PNG)
+![Manager View](images/mysql-node-one.PNG)
+![Manager View](images/mysql-node-two.PNG)
+![Manager View](images/mysql-node-three.PNG)
+![Manager View](images/mysql-node-four.PNG)
+![Supervisor View](images/mysql-node-five.PNG)
+![Supervisor View](images/mysql-node-six.PNG)
