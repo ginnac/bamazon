@@ -26,21 +26,21 @@ over_head_costs (type:DECIMAL(65,2) NULL),
 
  Finally, you can run the applications with these 3 options: 
 
-online-store simulator: node bamazonCustomer.js
-supervisor view of store-simulator: node bamazonSupervisor.js
-Manager view if store-simulator: node bamazonManager.js
+* online-store simulator: node bamazonCustomer.js
+* supervisor view of store-simulator: node bamazonSupervisor.js
+* Manager view if store-simulator: node bamazonManager.js
 
 
 
 *Example on how to run this code in the Command Line:*
-*$ node bamazonManager.js*
-*? Choose a task:*
-  *1) View Products for Sale*
-  *2) View Low Inventory*
-  *3) Add to Inventory*
-  *4) Add New Product*
-  *5) Exit*
-  *Answer:*
+* *$ node bamazonManager.js*
+* *? Choose a task:*
+*   *1) View Products for Sale*
+*   *2) View Low Inventory*
+*   *3) Add to Inventory*
+*   *4) Add New Product*
+*   *5) Exit*
+*   *Answer:*
 
 Developer: Ginna Campbell
 Technologies applied: Node.js
